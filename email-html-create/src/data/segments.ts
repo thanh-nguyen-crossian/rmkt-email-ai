@@ -28,20 +28,23 @@ export type Domain = {
   segs: Segment[];
 };
 
+// Base-aware image dir: "/img/" in dev, "/rmkt-email-ai/img/" on GitHub Pages.
+const IMG = import.meta.env.BASE_URL + 'img/';
+
 // ---- BraGoddess catalog (12 products, real designed images) ----
 export const CATALOG: Catalog = {
-  lushfitting:  { name: 'LushFitting',   img: '/img/lushfitting.jpg',  price: '$29.99' },
-  stretchactive:{ name: 'StretchActive', img: '/img/stretchactive.jpg',price: '$27.99' },
-  daisybra:     { name: 'Daisy Bra',     img: '/img/daisybra.jpg',     price: '$19.99' },
-  zenchic:      { name: 'ZenChic Bra',   img: '/img/zenchic.jpg',      price: '$22.99' },
-  doveloom:     { name: 'DoveLoom',      img: '/img/doveloom.jpg',     price: '$24.99' },
-  icyshorts:    { name: 'Icy Shorts',    img: '/img/icyshorts.jpg',    price: '$16.99' },
-  rosylift:     { name: 'RosyLift',      img: '/img/rosylift.jpg',     price: '$25.99' },
-  sonashape:    { name: 'SonaShape',     img: '/img/sonashape.jpg',    price: '$26.99' },
-  zoeshape:     { name: 'ZoeShape',      img: '/img/zoeshape.jpg',     price: '$24.99' },
-  veracomfort:  { name: 'VeraComfort',   img: '/img/veracomfort.jpg',  price: '$23.99' },
-  sofilace:     { name: 'SofiLace',      img: '/img/sofilace.jpg',     price: '$21.99' },
-  posybra:      { name: 'Posy Bra',      img: '/img/posybra.jpg',      price: '$22.99' },
+  lushfitting:  { name: 'LushFitting',   img: IMG + 'lushfitting.jpg',  price: '$29.99' },
+  stretchactive:{ name: 'StretchActive', img: IMG + 'stretchactive.jpg',price: '$27.99' },
+  daisybra:     { name: 'Daisy Bra',     img: IMG + 'daisybra.jpg',     price: '$19.99' },
+  zenchic:      { name: 'ZenChic Bra',   img: IMG + 'zenchic.jpg',      price: '$22.99' },
+  doveloom:     { name: 'DoveLoom',      img: IMG + 'doveloom.jpg',     price: '$24.99' },
+  icyshorts:    { name: 'Icy Shorts',    img: IMG + 'icyshorts.jpg',    price: '$16.99' },
+  rosylift:     { name: 'RosyLift',      img: IMG + 'rosylift.jpg',     price: '$25.99' },
+  sonashape:    { name: 'SonaShape',     img: IMG + 'sonashape.jpg',    price: '$26.99' },
+  zoeshape:     { name: 'ZoeShape',      img: IMG + 'zoeshape.jpg',     price: '$24.99' },
+  veracomfort:  { name: 'VeraComfort',   img: IMG + 'veracomfort.jpg',  price: '$23.99' },
+  sofilace:     { name: 'SofiLace',      img: IMG + 'sofilace.jpg',     price: '$21.99' },
+  posybra:      { name: 'Posy Bra',      img: IMG + 'posybra.jpg',      price: '$22.99' },
 };
 
 // ---- 8 tệp from segment_mapping.csv ----
@@ -89,7 +92,7 @@ function genericDomain(accent: string, sender: string): Domain {
 }
 
 export const DOMAINS: Record<string, Domain> = {
-  BraGoddess: { accent: '#c12a4e', sender: 'Sandra @ BraGoddess', real: true, banner: '/img/banner.gif', catalog: CATALOG, segs: BRA_SEGS },
+  BraGoddess: { accent: '#c12a4e', sender: 'Sandra @ BraGoddess', real: true, banner: IMG + 'banner.gif', catalog: CATALOG, segs: BRA_SEGS },
   GentsLux:   genericDomain('#1f3a5f', 'GentsLux'),
   LuxFitting: genericDomain('#6b4e9e', 'LuxFitting'),
   SantaFare:  genericDomain('#b8342b', 'SantaFare'),

@@ -117,6 +117,10 @@ export default function App() {
   const [promoVal, setPromoVal] = useState('75%');
   const [ship, setShip] = useState('Orders $35+');
   const [curSeg, setCurSeg] = useState('T1');
+  // Locked until Generate. On Generate the email unlocks and fills with the default
+  // template content (lib/content.ts) so the regenerate/edit tools are demoable.
+  // Dev plugs the real AI into the generation seam: phase 1 = fill on Generate,
+  // phase 2 = Regenerate (see runGeneration + lib/content.ts).
   const [phase, setPhase] = useState<Phase>('empty');
   const [segState, setSegState] = useState<Record<string, SegPhase>>(() => Object.fromEntries(DOMAINS.BraGoddess.segs.map((s) => [s.code, 'idle'])));
   const [sharedFilled, setSharedFilled] = useState<Record<string, boolean>>({});
@@ -153,10 +157,9 @@ export default function App() {
   const toast = (m: string) => { setToastMsg(m); clearTimeout(toastT.current); toastT.current = setTimeout(() => setToastMsg(''), 2600); };
   const savedTick = () => { if (phase !== 'ready') return; setSaved('Saving…'); clearTimeout(savedT.current); savedT.current = setTimeout(() => setSaved('Saved · just now'), 600); };
 
-  const shipTxt = () => ship === 'None' ? '' : ship === 'All orders' ? 'on all orders' : 'on ' + ship.toLowerCase();
-  const heroName = (code: string) => prod(seg(code).prods[0]).name;
+  const shipTxt = () => { if (ship === 'None') return ''; if (ship === 'All orders') return 'on all orders'; const m = ship.match(/\$(\d+)/); return m ? 'over 💲' + m[1] : 'available'; };
   const gen = (key: BlockKey, code: string, v: number) =>
-    generateContent(key, { domainName, theme, val: promoVal, ship: shipTxt(), seg: seg(code), heroName: heroName(code) }, v);
+    generateContent(key, { domainName, theme, val: promoVal, ship: shipTxt(), seg: seg(code), products: seg(code).prods.map((k) => prod(k).name) }, v);
 
   const sharedContent = (key: BlockKey) => shared[key] ? shared[key].versions[shared[key].idx] : gen(key, curSeg, 0);
   const segContent = (key: BlockKey) => { const s = perSeg[curSeg]?.[key]; return s ? s.versions[s.idx] : gen(key, curSeg, 0); };
