@@ -428,7 +428,7 @@ export default function App() {
     <>
       <header className="topbar">
         <div className="logo">{domainName[0]}</div>
-        <div className="name">EmailAuto <span className="mtag">Part 1</span></div>
+        <div className="name">EmailAuto</div>
         <div className="t3wrap">
           <button className="t3 on">Email HTML Create</button>
         </div>
