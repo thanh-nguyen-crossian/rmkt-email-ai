@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode, type DragEvent } from 'react';
 import { DOMAINS, DOMAIN_NAMES, type Domain, type Segment } from './data/segments';
 import { generateContent, type BlockKey } from './lib/content';
+import { recommendTheme, THEME_OPTIONS } from './lib/occasions';
 
 /* ========================================================================
    Email HTML Create — Part 1 (vibe-coded).
@@ -23,14 +24,8 @@ function niceDate(iso: string) {
   const d = toDate(iso);
   return d.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
 }
-function recommendTheme(iso: string): { theme: string; why: string } {
-  const d = toDate(iso), m = d.getMonth();
-  if (iso >= '2026-06-11' && iso <= '2026-07-19') return { theme: 'World Cup Sale', why: 'FIFA World Cup 2026 window' };
-  if (m >= 5 && m <= 7) return { theme: 'Summer Sale', why: 'summer' };
-  if (m === 10 || m === 11) return { theme: 'Holiday', why: 'holiday season' };
-  if (m <= 1) return { theme: 'New Arrival', why: 'new-year' };
-  return { theme: 'Loyalty / VIP', why: 'off-season' };
-}
+/* recommendTheme / THEME_OPTIONS now live in ./lib/occasions (ports the real
+   EmailAuto Studio occasionsInWindow date→occasion method). */
 
 /* editable rich-text hook (avoids React/contentEditable conflicts) */
 function useEditable(content: string, onCommit: (html: string) => void) {
@@ -380,7 +375,7 @@ export default function App() {
                 <div className="field"><label>Send date</label><input className="inp" type="date" value={sendDate} onChange={(e) => onDate(e.target.value)} /></div>
                 <div className="field"><label>Theme <span className="recstar">★ recommended from send date</span></label>
                   <select className="sel" value={theme} onChange={(e) => setTheme(e.target.value)}>
-                    {['Summer Sale','World Cup Sale','Winback','New Arrival','Abandoned Cart','Loyalty / VIP','Holiday'].map((t) => <option key={t}>{t}</option>)}
+                    {THEME_OPTIONS.map((t) => <option key={t}>{t}</option>)}
                   </select>
                 </div>
                 <div className="hint">Send date → recommended theme <b>{themeRec.theme}</b> ({themeRec.why}). Change it anytime.</div>
