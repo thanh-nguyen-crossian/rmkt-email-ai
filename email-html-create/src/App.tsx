@@ -428,10 +428,7 @@ export default function App() {
     <>
       <header className="topbar">
         <div className="logo">{domainName[0]}</div>
-        <div className="name">EmailAuto</div>
-        <div className="t3wrap">
-          <button className="t3 on">Email HTML Create</button>
-        </div>
+        <div className="name">EmailAuto <span className="sub">· Email HTML Create</span></div>
       </header>
 
       <div className="tabpage on">
